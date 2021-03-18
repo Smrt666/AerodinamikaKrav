@@ -1,0 +1,45 @@
+body{
+   padding: 0px max(3%, 5px);
+   /* border-style: dashed; */
+
+}
+
+header {
+   height: 50px;
+   width: 100%;
+   /* border-style: dashed; */
+   padding-bottom: 10px;
+}                  
+nav {
+   float: left;
+   width: max(100px, 10%);
+   line-height: 2;
+   padding-right: max(2%, 2px);
+   /* border-style: dashed; */
+}
+.nav-element{
+   margin-top: 10px;
+   line-height: normal;
+   font-size: large;
+   /* border-style: dashed; */
+
+}
+
+.content{
+   margin-left: max(100px, 10%);
+   padding-left: max(5px, 5%);
+   /* border-style: dashed; */
+}
+
+
+
+footer {
+   margin-top: 100px;
+   padding-top: 10px;
+   margin-left: max(100px, 10%);
+   height: 70px;
+   width: 80%;
+   vertical-align: bottom;
+   border-top-style: solid;
+   border-top-width: 1px;
+}
