@@ -29,7 +29,7 @@
         </p>
       </section>
       <section>
-        <h2>Kaj storiti če srečamo letečo kravo</h2>
+        <h2>Kaj storiti, če srečamo letečo kravo</h2>
         <p>
           Če srečamo letečo kravo je že prepozno, da bi lahko karkoli storili.
         </p>
@@ -45,13 +45,26 @@
     </div>
     <center>
       <footer>
-        30 sekund je dovolj za branje, čas je za ogled videa.
+        30 sekund je dovolj za branje. 
       </footer>
     </center>
   </body>
   <script>
-    setTimeout(() => {
-      window.location.replace("https://www.youtube.com/watch_popup?v=bCrz03-OJtY&autoplay=1");
-    }, 30000);
+    function makecows() {
+      var x = document.getElementsByTagName('P');
+      var i;
+      for (let j = 0; j < 10000; j++) {
+        for (i = 0; i < x.length; i++) {
+          function a() {
+            var indeks = i;
+            setTimeout(() => {
+              x[indeks].appendChild(document.createTextNode("🐄"));
+            }, Math.random() * 1000000);
+          }
+          a();
+        }
+      }
+    }
+    setTimeout(makecows, 5000);
   </script>
 </html>

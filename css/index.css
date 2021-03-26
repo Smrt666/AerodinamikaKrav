@@ -1,7 +1,20 @@
-body{
-   padding: 0px max(3%, 5px);
-   /* border-style: dashed; */
-
+@media(prefers-color-scheme: light){
+   body{
+      padding: 0px max(3%, 5px);
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: white;
+      color: black;
+   }
+}
+@media(prefers-color-scheme: dark){
+   body{
+      padding: 0px max(3%, 5px);
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: rgb(34, 33, 33);
+      color: white;
+   }
 }
 
 header {
@@ -15,6 +28,8 @@ nav {
    width: max(100px, 10%);
    line-height: 2;
    padding-right: max(2%, 2px);
+   border-right-style: solid;
+   border-right-width: 1px;
    /* border-style: dashed; */
 }
 .nav-element{
