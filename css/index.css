@@ -22,16 +22,33 @@ header {
    width: 100%;
    /* border-style: dashed; */
    padding-bottom: 10px;
-}                  
-nav {
-   float: left;
-   width: max(100px, 10%);
-   line-height: 2;
-   padding-right: max(2%, 2px);
-   border-right-style: solid;
-   border-right-width: 1px;
-   /* border-style: dashed; */
+   border-bottom-width: 1px;
+   border-bottom-style: solid;
 }
+@media (min-width: 800px){
+   nav {
+      float: left;
+      width: max(100px, 10%);
+      line-height: 2;
+      margin-top: 10px;
+      padding-right: max(2%, 2px);
+      border-right-style: solid;
+      border-right-width: 1px;
+      /* border-style: dashed; */
+   }
+}
+
+@media (max-width: 800px){
+   nav {
+      line-height: 2;
+      margin-top: 10px;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      padding-left: max(5px, 5%);
+      /* border-style: dashed; */
+   }
+}
+
 .nav-element{
    margin-top: 10px;
    line-height: normal;
@@ -40,21 +57,45 @@ nav {
 
 }
 
-.content{
-   margin-left: max(100px, 10%);
-   padding-left: max(5px, 5%);
-   /* border-style: dashed; */
+@media (min-width: 800px){
+   .content{
+      margin-left: max(100px, 10%);
+      padding-left: max(5px, 5%);
+      /* border-style: dashed; */
+   }
+}
+@media (max-width: 800px){
+   .content{
+      padding-left: max(5px, 5%);
+      /* border-style: dashed; */
+   }
 }
 
+@media (min-width: 800px){
+   footer {
+      margin-top: 100px;
+      padding-top: 10px;
+      margin-left: max(100px, 10%);
+      height: 70px;
+      width: 80%;
+      vertical-align: bottom;
+      border-top-style: solid;
+      border-top-width: 1px;
+   }
+}
 
+@media (max-width: 800px){
+   footer {
+      margin-top: 100px;
+      padding-top: 10px;
+      height: 70px;
+      width: 80%;
+      vertical-align: bottom;
+      border-top-style: solid;
+      border-top-width: 1px;
+   }
+}
 
-footer {
-   margin-top: 100px;
-   padding-top: 10px;
-   margin-left: max(100px, 10%);
-   height: 70px;
-   width: 80%;
-   vertical-align: bottom;
-   border-top-style: solid;
-   border-top-width: 1px;
+h1{
+   font-weight: bold;
 }
