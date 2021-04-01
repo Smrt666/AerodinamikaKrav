@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <title>Leteče krave</title>
+  </head>
+  <body>
+    <header>
+      <h1 style="text-align: center;">Leteče krave</h1>
+    </header>
+    <nav>
+      <div class="nav-element"> Kdaj krave letijo </div>
+      <div class="nav-element"> Kdaj krave ne letijo </div>
+      <div class="nav-element"> Kaj storiti če srečamo letečo kravo </div>
+      <div class="nav-element"> Zakaj nočemo srečati leteče krave </div>
+    </nav>
+    <div class="content">
+      <section>
+        <h2>Kdaj krave letijo</h2>
+        <p>
+          Krave letijo, kadar potujejo s hitrostjo 1600 km/h in več.
+        </p>
+      </section>
+      <section>
+        <h2>Kdaj krave ne letijo</h2>
+        <p>
+          Krave ne letijo, če potujejo s hitrostjo manjšo od 1600 km/h. 
+          Seveda je tudi vprašljivo, ali krave prenesejo takšne hitrosti.
+        </p>
+      </section>
+      <section>
+        <h2>Kaj storiti, če srečamo letečo kravo</h2>
+        <p>
+          Če srečamo letečo kravo je že prepozno, da bi lahko karkoli storili.
+        </p>
+      </section>
+      <section>
+        <h2>Zakaj nočemo srečati leteče krave</h2>
+        <p>
+          Leteče krave nočemo srečati, ker bi bil trk z njo usoden tako za nas kot za njo.
+          V tem primeru bi bila naša glava, kot da bi nanjo obesili avtomobil. Če gre pa samo mimo nas,
+          imamo težave zaradi poka, ki ga povzroči nadzvočna hitrost, kar 1600 km/h zagotovo je.
+        </p>
+      </section>
+    </div>
+    <center>
+      <footer>
+        30 sekund je dovolj za branje. 
+      </footer>
+    </center>
+  </body>
+  <script>
+    function makecows() {
+      var x = document.getElementsByTagName('P');
+      var i;
+      for (let j = 0; j < 10000; j++) {
+        for (i = 0; i < x.length; i++) {
+          function a() {
+            var indeks = i;
+            setTimeout(() => {
+              x[indeks].appendChild(document.createTextNode("🐄"));
+            }, Math.random() * 1000000);
+          }
+          a();
+        }
+      }
+    }
+    setTimeout(makecows, 5000);
+  </script>
+</html>
