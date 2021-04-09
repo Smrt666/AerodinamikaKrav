@@ -33,7 +33,7 @@ a:hover{
 }
 
 header {
-   height: 50px;
+   min-height: 50px;
    width: 100%;
    /* border-style: dashed; */
    padding-bottom: 10px;
