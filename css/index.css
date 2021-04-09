@@ -6,6 +6,14 @@ body{
    color: black;
 }
 
+a{
+   color: blue;
+   text-decoration: none;
+}
+a:hover{
+   text-decoration: underline;
+}
+
 @media(prefers-color-scheme: dark){
    body{
       padding: 0px max(3%, 5px);
@@ -13,6 +21,13 @@ body{
       font-family: Consolas, "Courier New", monospace;
       background-color: rgb(34, 33, 33);
       color: white;
+   }
+   a{
+      color: red;
+      text-decoration: none;
+   }
+   a:hover{
+      text-decoration: underline;
    }
 }
 
@@ -109,4 +124,15 @@ footer{
 
 h1{
    font-weight: bold;
+}
+
+.nav-title{
+   color: gray;
+   font-size: larger;
+}
+
+.nav-home{
+   margin-top: 10px;
+   border-top-style: solid;
+   border-width: 1px;
 }

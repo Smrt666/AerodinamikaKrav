@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/menu.css">
+    <title>Krawe</title>
+  </head>
+  <body>
+    <header>
+      <h1 style="text-align: center;">Krave v znanosti</h1>
+    </header>
+    <div class="sub-header">
+      <ul>
+        <li><a href="Aerodinamika_krav/">Aerodinamika krav</a></li>
+        <li><a href="Sfericne_krave/">Sferične krave</a></li>
+      </ul>
+    </div>
+    <section>
+      <h2>O spletni strani</h2>
+      <p>
+        Ta spletna stran skrbi, da ne pozabimo na pomebno vlogo krav, ki jo imajo v znanosti.
+      </p>
+      <p>
+        Na tej spletni strani bomo lahko našli nekaj malega o sferičnih kravah v vakuumu - zgodbica o fizikih,
+        nekaj o aerodinamiki krav, kravji fraktal in kravji kalkulator.
+      </p>
+    </section>
+    <section style="border-style: solid; padding-left: 10px; border-width: 1px; margin-top: 150px;">
+      <h2>Kravje polje</h2>
+      <p class="high-line" style="border-bottom-style: solid; margin-right: 15px;">
+        <a href="javascript: addCow(1);">Dodaj kravo</a>
+        <a href="javascript: addCow(2);">Dodaj kravo 2-krat</a>
+        <a href="javascript: addCow(3);">Dodaj kravo 3-krat</a>
+        <a href="javascript: addCow(4);">Dodaj kravo 4-krat</a>
+        <a href="javascript: addCow(5);">Dodaj kravo 5-krat</a>
+        <a href="javascript: addCow(6);">Dodaj kravo 6-krat</a>
+        <a href="javascript: addCow(7);">Dodaj kravo 7-krat</a>
+        <a href="javascript: addCow(8);">Dodaj kravo 8-krat</a>
+        <a href="javascript: addCow(9);">Dodaj kravo 9-krat</a>
+        <a href="javascript: addCow(10);">Dodaj kravo 10-krat</a>
+      </p>
+      <p id='123456'></p>
+    </section>
+    <footer>
+      Tukaj se ta stran konča.
+    </footer>
+  </body>
+  <script>
+    var par = document.getElementById("123456");
+
+    function addCow(n) {
+      for (let i = 0; i < n; i++) {
+        par.appendChild(document.createTextNode("🐄"));        
+      }
+    }
+  </script>
+</html>

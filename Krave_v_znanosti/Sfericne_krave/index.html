@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+    <title>Krawe</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1 style="text-align: center;">Sferične krave v vakuumu</h1>
+    </header>
+    <nav>
+      <div class="nav-title"> Vsebina </div>
+      <div class="nav-element"> Pomen </div>
+      <div class="nav-element"> Zgodba </div>
+      <div class="nav-element"> Težava s sferičnimi kravami </div>
+      <div class="nav-element"> Težava s kravami v vakuumu </div>
+      <div class="nav-home"><a href="../">Začetna stran</a></div>
+    </nav>
+    <div class="content">
+      <section>
+        <h2>Pomen</h2>
+        <p>
+          Zgodba je metafora, ki govori o poenostavitvi problemov iz resničnega življenja.
+          Natančneje, govori o fizikih, ki zelo močno poenostavijo problem, da je lažje rešljiv. Včasih je poenostavljen
+          do te mere, da ni več uporaben v praksi.
+        </p>
+      </section>
+      <section>
+        <h2>Zgodba</h2>
+        <p>
+          Proizvodnja mleka na neki kmetiji je bila zelo nizka, zato je kmet pisal na lokalno univerzo in prosil za pomoč
+          akademikov. Zbrana je bila ekipa profesorjev, ki jo je vodil teoretični fizik. najprej so izvedli dvo tedensko
+          preiskavo problema na terenu. Po teh dveh tednih so se vrnili na univerzo. Zbrali so veliko podatkov, naloga
+          pisanja poročila pa je bila prepuščena vodji ekipe. Kmalu se je fizik vrnil na kmetijo in rekel kmetu: "Imam
+          rešitev, toda deluje samo v primeru sferičnih krav v vakuumu."
+        </p>
+      </section>
+      <section>
+        <h2>Težava s sferičnimi kravami</h2>
+        <p>
+          Da bi bila krava sferična, torej okrogla, bi morale vse njene točke zadostiti neenačbi:
+          $$ {(T_{i_x} - C_x)^2 + (T_{i_y} - C_y)^2 +(T_{i_z} - C_z)^2 \le R^2} $$
+          kjer je \(T_{i}(T_{i_x}, T_{i_y}, T_{i_z})\) točka krave, \(C(C_x, C_y, C_z)\) središče krave in \(R\) polmer krave.
+        </p>
+        <p>
+          Toda to je samo prvi pogoj. Poleg tega mora veljati še, da mora biti vsaka točka \(P_i\), za katero velja
+          \((P_{i_x} - C_x)^2 + (P_{i_y} - C_y)^2 +(P_{i_z} - C_z)^2 \le R^2\) del krave, torej mora biti enaka \(T_j\),
+          kjer je \(j\) poljubno število med \(0\) in \(N\), kjer je \(N + 1\) število točk v kravi.
+        </p>
+        <p>
+          Središče krave \(C\) lahko izračunamo po enačbi:
+          $$ C(C_x, C_y, C_z) = (\sum_{i=0}^N T_{i_x}, \sum_{i=0}^N T_{i_y}, \sum_{i=0}^N T_{i_z})$$
+        </p>
+        <p>
+          Kot je morda že postalo jasno, je pogoj, da je krava sferična težko uresničljiv. Verjetno je prav to razlog, 
+          da sferičnih krav ni, tako da so modeli, v katerih jih uporabljamo lahko neuporabni.
+        </p>
+      </section>
+      <section>
+        <h2>Težava s kravami v vakuumu</h2>
+        <p>
+          Na splošno imajo živali težave z življenjem v vakuumu. Spopasti se je treba s pomanjkanjem kisika in tlaka, kar je
+          lahko usodno.
+        </p>
+      </section>
+    </div>
+    <center>
+      <footer>
+        Pomen in zgodba povzeta po: <a href="https://en.wikipedia.org/wiki/Spherical_cow">Spherical cow</a>
+      </footer>
+    </center>
+  </body>
+</html>
