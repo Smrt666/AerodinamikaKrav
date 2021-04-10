@@ -30,6 +30,11 @@
         <p id="123">
           <a href="javascript: calculate()" id="1234">Izračunaj vsoto prostornin sferičnih krav v vseh sodih dimenzijah s polemorm 1</a>
         </p>
+        <p id="234">
+          <a href="javascript: calculate2()" id="2345">Izračunaj vsoto prostornin sferičnih krav v vseh naravnih dimenzijah s
+            polemorm 1</a>
+        </p>
+
       </section>
     </div>
     <center>
@@ -40,11 +45,17 @@
   </body>
   <script>
     var par = document.getElementById("123");
+    var par2 = document.getElementById("234");
 
     function calculate() {
       var za_izbris = document.getElementById("1234");
       za_izbris.parentNode.removeChild(za_izbris);
       par.appendChild(document.createTextNode("Približna vsota vseh prostornin sferičnih krav s polmerom 1 v vseh sodih dimenzijah je 20 + π (od točnega rezultata se razlikuje za manj kot 0.001)."));
-    }
+    } 
+    function calculate2() {
+        var za_izbris = document.getElementById("2345");
+        za_izbris.parentNode.removeChild(za_izbris);
+        par2.appendChild(document.createTextNode("Približna vsota vseh prostornin sferičnih krav s polmerom 1 v vseh naravnih dimenzijah je 44.99932608938283."));
+      }
   </script>
 </html>
