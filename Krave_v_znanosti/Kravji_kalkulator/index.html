@@ -97,7 +97,7 @@
     }
     function volumen() {
       var R = parseFloat(document.getElementById("cow-radius").value);
-      let result = 3 / 4 * Math.PI * R ** 3;
+      let result = 4 / 3 * Math.PI * R ** 3;
       if ((!isNaN(result)) && isFinite(result) && result > 0) {
         document.getElementById("V-result").innerHTML = result;
         document.getElementById("V_units").hidden = false;
