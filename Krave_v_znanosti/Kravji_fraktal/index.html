@@ -7,6 +7,7 @@
     <title>Krawe</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="kravji_fraktal.js"></script>
   </head>
   <body>
     <header>
@@ -14,16 +15,24 @@
     </header>
     <nav>
       <div class="nav-title"> Vsebina </div>
-      <div class="nav-element"> Uvod </div>
+      <div class="nav-element"> Fraktal </div>
       <div class="nav-home"><a href="../">Začetna stran</a></div>
     </nav>
     <div class="content">
       <section>
-        <h2>Uvod</h2>
+        <h2>Fraktal</h2>
         <p>
-          Tukaj bomo če bo vse po sreči nekoč videli pravi pravcati kravji fraktal, do takrat ga pa 
-          na žalost še ni in se boste morali zadovojliti s tem zapisom, ali pa s čim drugim, če se pa ne,
-          pa tako pač je.
+          Ta spletna stran z velikim ponosom predstavlja pravi pravcati kravji fraktal!
+        </p>
+        <div>
+          <span>Določi kako je krava obrnjena.</span> <br>
+          <input type="range" min="-360" max="360" value="0" class="slider" id="myRange" style="width: 70%;"> <br>
+          <span>Določi natančnost risanja</span> <br>
+          <input type="range" min="1" max="7" value="6" class="slider" id="natancnost" style="width: 70%;">
+        </div>
+        <p>
+          <canvas id="myCanvas" width="700" height="600" style="border:1px solid #d3d3d3; background-color: white;">
+            Your browser does not support the HTML5 canvas tag.</canvas>
         </p>
       </section>
     </div>
@@ -33,4 +42,21 @@
       </footer>
     </center>
   </body>
+  <script>
+    var head_angle = 0.1;
+    var start = 0.1;
+    var angle = document.getElementById("myRange");
+    var natancnost = document.getElementById("natancnost");
+    var last_timestamp = 0;
+    var max_head_angular_velocity = 0.4 // rad / s
+
+    function drawagain(timestamp) {
+      head_angle = (head_angle + max_head_angular_velocity / (timestamp - last_timestamp)) % (2 * Math.PI);
+      draw(angle.value/180*Math.PI, Math.sin(head_angle)/3+0.5, parseInt(natancnost.value));
+
+      last_timestamp = timestamp;
+      requestAnimationFrame(drawagain);
+    }
+    requestAnimationFrame(drawagain);
+  </script>
 </html>
