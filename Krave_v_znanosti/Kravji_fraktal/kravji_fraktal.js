@@ -23,6 +23,9 @@ function krawa(ctx, p0, d, angle, n, head_angle, osnovna_natancnost) {
 
         ctx.lineTo(p0[0], p0[1]);
         ctx.lineWidth = n - (osnovna_natancnost - 5)
+        if (n == osnovna_natancnost || n == osnovna_natancnost - 1) {
+                ctx.lineWidth = 6;
+        }
         ctx.stroke();
 
         if (n > 0) {
