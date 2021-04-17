@@ -10,11 +10,13 @@
   </head>
   <body>
     <header>
-      <h1 style="text-align: center;">Podrobna aerodinamika krav</h1>
+      <h1 style="text-align: center;">Podrobnejša aerodinamika krav</h1>
     </header>
     <nav>
       <div class="nav-title"> Vsebina </div>
       <div class="nav-element"> Uvod </div>
+      <div class="nav-element"> Aerodinamika </div>
+      <div class="nav-element"> Simulacija kravje aerodinamike </div>
       <div class="nav-home"><a href="../">Začetna stran</a></div>
     </nav>
     <div class="content">
@@ -24,15 +26,23 @@
           Skoraj vedno in povsod, ko bomo govorili ali pa samo pomislili na krave, si moramo predstavljati kroglo.
           To močno poenostavi razne računske operacije, ki jih potrebujemo da določimo lastnosti krav.
         </p>
+      </section>
+      <section>
         <h2>Aerodinamika</h2>
         <p>
           Kot vemo obstajata dva zakona upora. Kvadratni in linearni. Kvadratni zakon upora je odvisen od \(F_D = \frac{1}{2}\rho v^2C_DA\).
-          \(F_D\) je sila upora, \(\rho\) je gostota tekočine, \(v\) hitrost premikanja, \(A\) je presek predmeta in \(C_D\) je koeficient upora.
+          \(F_D\) je sila upora, \(\rho\) je gostota tekočine, \(v\) hitrost premikanja, \(A\) je presek predmeta in \(C_D\) 
+          je koeficient upora, ki je za kravo (kroglo) približno enak \(0.47\).
         </p>
         <p>
           Linearni zakon upora lahko pa zapišemo kot \(F_d = -6 \pi \mu r v\). \(F_d\) je sila upora, ki deluje na opazovano telo, \(\mu\) je viskoznost tekočine, po kateri se
-          premika \(r\) je Stockov radij in \(v\) je htrost telesa glede na tekočino.
+          premika \(r\) je radij sferičnega predmeta in \(v\) je htrost telesa glede na tekočino.
         </p>
+        <p>
+          Katerega uporabiti nam pove <a href="https://en.wikipedia.org/wiki/Reynolds_number">Reynoldovo število</a>, o katerem pa na tej strani ne bo govora.
+        </p>
+      </section>
+      <section>
         <h2>Simulacija kravje aerodinamike</h2>
         <p>
             <iframe width="1280" height="720" src="https://www.youtube.com/embed/goucqTkRAP0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -42,6 +52,7 @@
     <center>
       <footer>
         Povzeto po: <a href="https://en.wikipedia.org/wiki/Drag_%28physics%29">Wikipedia:Drag (physics)</a> <br>
+        <a href="https://en.wikipedia.org/wiki/Drag_coefficient">Drag coefficient</a> <br>
         Video iz: <a href="https://www.youtube.com/embed/goucqTkRAP0">Aerodynamics of a Cow</a>
       </footer>
     </center>

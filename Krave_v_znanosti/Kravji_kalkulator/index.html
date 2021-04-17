@@ -7,6 +7,7 @@
     <title>Krawe</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/mathjs/lib/browser/math.js"></script>
   </head>
   <body>
     <header>
@@ -15,47 +16,149 @@
     <nav>
       <div class="nav-title"> Vsebina </div>
       <div class="nav-element"> Uvod </div>
+      <div class="nav-element"> Kalkulator </div>
+      <div class="nav-element"> Razjasnitev zadnjih dveh računskih funkcij </div>
       <div class="nav-home"><a href="../">Začetna stran</a></div>
     </nav>
     <div class="content">
       <section>
         <h2>Uvod</h2>
         <p>
-          Tukaj nekoč v prihodnosti pričakujemo kalkulator. Ampak to ne kakršen koli kalkulator.
-          Pričakujemo kalkulator, ki bo računal kravje podatke. Cilj je narediti kalkulator,
-          ki računa prostornino (<a href="../Sfericne_krave/">sferične</a>) krave, vsoto prostornin
-          (sferičnih) krav v vseh celih dimenzijah, pri čemer bomo zanemarili enote.
-          Pričakujemo tudi računanje mase (enakomerno gostih sferičnih) krav iz njihovege polmera. 
+          Ta spletna stran s ponosom predstavlja kalkulator,
+          ki računa podatke za (<a href="../Sfericne_krave/">sferične krave</a>) 
+        </p>        
+      </section>
+      <section>
+        <h2>Kalkulator</h2>
+        <p>
+          <h3>Izračun prostornine krave</h3>
+          Polmer krave = <input type="number" id="cow-radius"> \(m\)<br>
+          <span id="V_units"> &rarr; prostornina = <span id="V-result"></span> \(m^3\) <br></span> <br>
+          <button onclick="javascript: volumen()">Izračunaj prostornino</button> <br>
         </p>
-        <p id="123">
-          <a href="javascript: calculate()" id="1234">Izračunaj vsoto prostornin sferičnih krav v vseh sodih dimenzijah s polemorm 1</a>
+        <p>
+          <h3>Izračun mase krave</h3>
+          <button onclick="javascript: getVolume()">Prostornina krave</button>
+           = <input type="number" id="cow-volume"> \(m^3\) <br>
+          Gostota krave = <input type="number" id="cow-density" value="950"> \(\frac{kg}{m^3}\) <br>
+          <span id="m_units"> &rarr; masa = <span id="m-result"></span> \(kg\) <br> </span> <br>
+          <button onclick="javascript: masa()">Izračunaj prostornino</button> <br>
         </p>
-        <p id="234">
-          <a href="javascript: calculate2()" id="2345">Izračunaj vsoto prostornin sferičnih krav v vseh naravnih dimenzijah s
-            polemorm 1</a>
+        <p>
+          <h3>Izračun prostornine N-dimenzionalne krave</h3>
+          Število dimenzij = <input type="number" id="cow-dimension"><br>
+          Polmer krave = <input type="number" id="cow-radius2" value="1"> \(m\) <br>
+          <span id="SV_units"> &rarr; (hiper) prostornina = <span id="SV-result"></span> (Najbrž čudne enote, razen če se vam \(m^D\) ne zdi čudno, kjer je \(D\) število dimenzij.) <br> </span> <br>
+          <button onclick="javascript: super_volume()">Izračunaj (hiper) prostornino</button> <br>
         </p>
-
+        <p>
+          <h3>Izračun vsote prostornin N-dimenzionalnih krav</h3>
+          Polmer krav = <input type="number" id="cow-radius3" value="1"><br>
+          <span id="SSV_units"> &rarr; vsota (hiper) prostornin = <span id="SSV-result"></span> (Seštevamo količine z različnimi enotami, tako da jih vzamemo kot 1) <br> </span> <br>
+          <button onclick="javascript: super_super_volume()">Izračunaj vsoto (hiper) prostornin</button> <br>
+        </p>
+      </section>
+      <section>
+        <h2>Razjasnitev zadnjih dveh računskih funkcij</h2>
+        <p>
+          Prostornina N-dimenzionalne krave ("krogle") je v eni dimenziji dolžina črte, v dveh ploščina kroga,
+          v treh prostornino krogle in naprej hiperprostornine hiperkrogel. Več o tem na <a href="https://en.wikipedia.org/wiki/N-sphere">n-sphere</a>.
+        </p>
+        <p>
+          Prostornine hiper krogel se v odvisnosti od dimenzij najprej nekaj časa večajo, potem pa se začnejo manjšati. Kdaj 
+          se to zgodi, je odvisno od polmera. Tako je naprimer za (hiper) kroglo s polmerom 1 največji (hiper) volumen v 5 dimenzijah.
+        </p>
       </section>
     </div>
     <center>
       <footer>
-        Muu?
+        Bonus:
+        <p id="123">
+          <a href="javascript: calculate()" id="1234">Pokaži vsoto prostornin sferičnih krav v vseh sodih dimenzijah s polemorm
+            1</a>
+        </p>
+        <p id="12345">Približna vsota vseh prostornin sferičnih krav s polmerom 1 v vseh sodih dimenzijah je 20 + π (od točnega rezultata se
+        razlikuje za manj kot 0.001, ki ga izračunamo kot \(e^\pi\)).</p>
       </footer>
     </center>
   </body>
   <script>
     var par = document.getElementById("123");
-    var par2 = document.getElementById("234");
+    document.getElementById("V_units").hidden = true;
+    document.getElementById("m_units").hidden = true;
+    document.getElementById("SV_units").hidden = true;
+    document.getElementById("SSV_units").hidden = true;
+    document.getElementById("12345").hidden = true;
 
     function calculate() {
       var za_izbris = document.getElementById("1234");
       za_izbris.parentNode.removeChild(za_izbris);
-      par.appendChild(document.createTextNode("Približna vsota vseh prostornin sferičnih krav s polmerom 1 v vseh sodih dimenzijah je 20 + π (od točnega rezultata se razlikuje za manj kot 0.001)."));
-    } 
-    function calculate2() {
-        var za_izbris = document.getElementById("2345");
-        za_izbris.parentNode.removeChild(za_izbris);
-        par2.appendChild(document.createTextNode("Približna vsota vseh prostornin sferičnih krav s polmerom 1 v vseh naravnih dimenzijah je 44.99932608938283."));
+      document.getElementById("12345").hidden = false;
+    }
+    function volumen() {
+      var R = parseFloat(document.getElementById("cow-radius").value);
+      let result = 3 / 4 * Math.PI * R ** 3;
+      if ((!isNaN(result)) && isFinite(result) && result > 0) {
+        document.getElementById("V-result").innerHTML = result;
+        document.getElementById("V_units").hidden = false;
+      } else {
+        document.getElementById("V-result").innerHTML = "";
+        document.getElementById("V_units").hidden = true;
       }
+    }
+    function masa() {
+      var V = parseFloat(document.getElementById("cow-volume").value);
+      let result = V * 950;
+      if ((!isNaN(result)) && isFinite(result) && result > 0) {
+        document.getElementById("m-result").innerHTML = result;
+        document.getElementById("m_units").hidden = false;
+      } else {
+        document.getElementById("m-result").innerHTML = "";
+        document.getElementById("m_units").hidden = true;
+      }
+    }
+    function getVolume() {
+      document.getElementById("cow-volume").value = document.getElementById("V-result").innerHTML;
+    }
+    function NDVolume(dimensions, r) {
+      return Math.PI ** (dimensions / 2) / math.gamma(dimensions/2 + 1) * r**dimensions;
+    }
+    function super_volume() {
+      var d = parseFloat(document.getElementById("cow-dimension").value);
+      var r = parseFloat(document.getElementById("cow-radius2").value);
+
+      let result = NDVolume(d, r).toFixed(5);
+      if ((!isNaN(result)) && isFinite(result)) {
+        document.getElementById("SV-result").innerHTML = result;
+        document.getElementById("SV_units").hidden = false;
+      } else {
+        document.getElementById("SV-result").innerHTML = "";
+        document.getElementById("SV_units").hidden = true;
+      }
+    }
+    function super_super_volume() {
+      var r = parseFloat(document.getElementById("cow-radius3").value);
+      let result = NDVolume(0, r) + NDVolume(1, r);
+      let prej = NaN;
+
+      let i = 2;
+      while (!isNaN(result) && isFinite(result)) {
+        prej = result;
+        result += NDVolume(i, r);
+        i++;
+      }
+      if (isNaN(result)){
+        result = prej;
+      }
+
+      result = result.toFixed(5);
+      if ((!isNaN(result)) && isFinite(result)) {
+        document.getElementById("SSV-result").innerHTML = result;
+        document.getElementById("SSV_units").hidden = false;
+      } else {
+        document.getElementById("SSV-result").innerHTML = "Preveč!";
+        document.getElementById("SSV_units").hidden = false;
+      }
+    }
   </script>
 </html>
