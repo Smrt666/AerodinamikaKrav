@@ -351,3 +351,4 @@ MigrationBackup/
 *.zip
 *.py
 *.exe
+*test*

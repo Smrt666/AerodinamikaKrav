@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+    <title>Krawe</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="3dkrava.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1 style="text-align: center;">Krava 3D</h1>
+    </header>
+    <nav>
+      <div class="nav-title"> Vsebina </div>
+      <div class="nav-element"> 3D Krava </div>
+      <div class="nav-home"><a href="../">Začetna stran</a></div>
+    </nav>
+    <div class="content">
+      <section>
+        <h2>3D Krava</h2>
+        <p>
+          Tukaj se lahko igrate s 3D modelom krave.
+        </p>
+        <p>
+          <div>
+            <span>Določi kako je krava obrnjena.</span> <br>
+            <input type="range" min="-360" max="360" value="0" class="slider" id="Angle0" style="width: 70%;"> <br>
+            <input type="range" min="-360" max="360" value="0" class="slider" id="Angle1" style="width: 70%;"> <br>
+            <input type="range" min="-360" max="360" value="0" class="slider" id="Angle2" style="width: 70%;"> <br>
+            <button onclick="javascript: mode=1;">Pusti kravi svobodo do vrtenja.</button> <br>
+            <button onclick="javascript: mode=0;">Vzemi kravi svobodo do vrtenja.</button> <br>
+          </div>
+        </p>
+        <p>
+          <canvas id="myCanvas" width="700" height="600" style="border:1px solid #d3d3d3; background-color: white;">
+          Your browser does not support the HTML5 canvas tag.</canvas>
+        </p>
+      </section>
+    </div>
+    <center>
+      <footer>
+        Muu?
+      </footer>
+    </center>
+  </body>
+  <script>
+    var last_timestamp;
+    var mode = 1;
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+
+    var trebuh = [[0, 0, 0], [100, 0, 0], [100, 200, 0], [0, 200, 0]];
+    // var prsi = [[0, 0, 0], [100, 0, 0], [100, 0, 100], [0, 0, 100]];           // gre tut brez
+    // var zadej = [[0, 200, 0], [100, 200, 0], [100, 200, 100], [0, 200, 100]];  // gre tut brez
+    var hrbet = [[0, 0, 100], [100, 0, 100], [100, 200, 100], [0, 200, 100]];
+    var desni_bok = [[0, 0, 0], [0, 200, 0], [0, 200, 100], [0, 0, 100]];
+    var levi_bok = [[100, 0, 0], [100, 200, 0], [100, 200, 100], [100, 0, 100]];
+
+    var vrat_spredej = [[25, 0, 100], [25, 0, 150], [75, 0, 150], [75, 0, 100]];
+    var vrat_zadej = [[25, 50, 100], [25, 50, 150], [75, 50, 150], [75, 50, 100]];
+    var vrat_desno = [[25, 0, 100], [25, 0, 150], [25, 50, 150], [25, 50, 100]];
+    var vrat_levo = [[75, 0, 100], [75, 0, 150], [75, 50, 150], [75, 50, 100]];
+    
+    var glava_zadej = [[20, 50, 200], [20, 50, 150], [80, 50, 150], [80, 50, 200]];
+    var glava_desno = [[20, 50, 200], [20, 50, 150], [20, -50, 150], [20, -50, 200]];
+    var glava_levo = [[80, 50, 200], [80, 50, 150], [80, -50, 150], [80, -50, 200]];
+    var obraz = [[80, -50, 200], [80, -50, 150], [20, -50, 150], [20, -50, 200]]
+
+    function noga(z, d) {
+      let z0 = z[0];
+      let z1 = z[1];
+      let z2 = z[2];
+      let gor = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0 + d/4, z1 + d/4, z2], [z0 + d/4, z1, z2]];
+      let dol = [[z0, z1, z2 - d], [z0, z1 + d/4, z2 - d], [z0 + d/4, z1 + d/4, z2 - d], [z0 + d/4, z1, z2 - d]];
+      let stran1 = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0, z1 + d/4, z2-d], [z0, z1, z2-d]];
+      z0 += d/4;
+      let stran2 = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0, z1 + d/4, z2-d], [z0, z1, z2-d]];
+      return [gor, dol, stran1, stran2];
+    }
+
+
+    var krawa = [obraz, trebuh, hrbet, desni_bok, levi_bok, vrat_spredej, vrat_zadej, vrat_desno, vrat_levo, glava_zadej, glava_desno, glava_levo];
+    noga([0, 0, 0], 100).forEach(element => {
+      krawa.push(element);
+    });
+    noga([75, 0, 0], 100).forEach(element => {
+      krawa.push(element);
+    });
+    noga([0, 175, 0], 100).forEach(element => {
+      krawa.push(element);
+    });
+    noga([75, 175, 0], 100).forEach(element => {
+      krawa.push(element);
+    });
+
+    var move = [[0], [0], [0]];
+    var angle0 = 30;
+    var angle1 = 30;
+    var angle2 = 30;
+    var rotate0 = [[Math.cos(angle0), -Math.sin(angle0), 0], [Math.sin(angle0), Math.cos(angle0), 0], [0, 0, 1]];
+    var rotate1 = [[Math.cos(angle1), 0, -Math.sin(angle1)], [Math.sin(angle1), 1, 0], [0, 0, Math.cos(angle1)]];
+    var rotate2 = [[1, 0, 0], [0, Math.cos(angle2), -Math.sin(angle2)], [0, Math.sin(angle2), Math.cos(angle2)]];
+    var rotate = matrix_mul(matrix_mul(rotate2, rotate1), rotate0);
+
+    function update_angles() {
+      if (mode == 0) {
+        angle0 = parseFloat(document.getElementById("Angle0").value) / 180 * Math.PI;
+        angle1 = (parseFloat(document.getElementById("Angle1").value) + 180) / 180 * Math.PI;
+        angle2 = parseFloat(document.getElementById("Angle2").value) / 180 * Math.PI;        
+      } else {
+        angle0 = (angle0 + 0.01) % (2*Math.PI);
+        angle1 = (angle1 + 0.01) % (2*Math.PI);
+        angle2 = (angle2 + 0.01) % (2*Math.PI);
+      }
+    }
+
+    function mainloop(timestamp) {
+      // console.log("Drawing");
+      
+      ctx.clearRect(0, 0, c.width, c.height);
+      // var head_angle = 0.1
+      draw(krawa, ctx, move, rotate);
+
+      update_angles();
+
+      rotate0 = [[Math.cos(angle0), -Math.sin(angle0), 0], [Math.sin(angle0), Math.cos(angle0), 0], [0, 0, 1]];
+      rotate1 = [[Math.cos(angle1), 0, -Math.sin(angle1)], [0, 1, 0], [Math.sin(angle1), 0, Math.cos(angle1)]];
+      rotate2 = [[1, 0, 0], [0, Math.cos(angle2), -Math.sin(angle2)], [0, Math.sin(angle2), Math.cos(angle2)]];
+      rotate = matrix_mul(matrix_mul(rotate2, rotate1), rotate0);
+
+      last_timestamp = timestamp;
+      requestAnimationFrame(mainloop);
+    }
+    requestAnimationFrame(mainloop);
+  </script>
+</html>
