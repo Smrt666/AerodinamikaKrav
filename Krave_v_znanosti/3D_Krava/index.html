@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/index.css">
     <title>Krawe</title>
     <script src="3dkrava.js"></script>
+    <script src="generate_cow.js"></script>
   </head>
   <body>
     <header>
@@ -47,57 +48,26 @@
   <script>
     var last_timestamp;
     var mode = 1;
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    var width = 700;
+    var height = 600;
+    var can = document.getElementById("myCanvas");
+    can.height = height;
+    can.width = width;
+    var ctx = can.getContext("2d");
 
-    var trebuh = [[0, 0, 0], [100, 0, 0], [100, 200, 0], [0, 200, 0]];
-    // var prsi = [[0, 0, 0], [100, 0, 0], [100, 0, 100], [0, 0, 100]];           // gre tut brez
-    // var zadej = [[0, 200, 0], [100, 200, 0], [100, 200, 100], [0, 200, 100]];  // gre tut brez
-    var hrbet = [[0, 0, 100], [100, 0, 100], [100, 200, 100], [0, 200, 100]];
-    var desni_bok = [[0, 0, 0], [0, 200, 0], [0, 200, 100], [0, 0, 100]];
-    var levi_bok = [[100, 0, 0], [100, 200, 0], [100, 200, 100], [100, 0, 100]];
+    var r_near = 0.1;
+    var r_far = 1000.0;
 
-    var vrat_spredej = [[25, 0, 100], [25, 0, 150], [75, 0, 150], [75, 0, 100]];
-    var vrat_zadej = [[25, 50, 100], [25, 50, 150], [75, 50, 150], [75, 50, 100]];
-    var vrat_desno = [[25, 0, 100], [25, 0, 150], [25, 50, 150], [25, 50, 100]];
-    var vrat_levo = [[75, 0, 100], [75, 0, 150], [75, 50, 150], [75, 50, 100]];
-    
-    var glava_zadej = [[20, 50, 200], [20, 50, 150], [80, 50, 150], [80, 50, 200]];
-    var glava_desno = [[20, 50, 200], [20, 50, 150], [20, -50, 150], [20, -50, 200]];
-    var glava_levo = [[80, 50, 200], [80, 50, 150], [80, -50, 150], [80, -50, 200]];
-    var obraz = [[80, -50, 200], [80, -50, 150], [20, -50, 150], [20, -50, 200]]
+    var fiel_of_view = 90.0; // stopinj
+    var aspect_ratio = height / width;
 
-    function noga(z, d) {
-      let z0 = z[0];
-      let z1 = z[1];
-      let z2 = z[2];
-      let gor = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0 + d/4, z1 + d/4, z2], [z0 + d/4, z1, z2]];
-      let dol = [[z0, z1, z2 - d], [z0, z1 + d/4, z2 - d], [z0 + d/4, z1 + d/4, z2 - d], [z0 + d/4, z1, z2 - d]];
-      let stran1 = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0, z1 + d/4, z2-d], [z0, z1, z2-d]];
-      z0 += d/4;
-      let stran2 = [[z0, z1, z2], [z0, z1 + d/4, z2], [z0, z1 + d/4, z2-d], [z0, z1, z2-d]];
-      return [gor, dol, stran1, stran2];
-    }
+    var Fov_scaling_factor = 1 / Math.tan(0.5 * fiel_of_view / 180 * Math.PI);
+    var q = r_far / (r_far - r_near)
 
-
-    var krawa = [obraz, trebuh, hrbet, desni_bok, levi_bok, vrat_spredej, vrat_zadej, vrat_desno, vrat_levo, glava_zadej, glava_desno, glava_levo];
-    noga([0, 0, 0], 100).forEach(element => {
-      krawa.push(element);
-    });
-    noga([75, 0, 0], 100).forEach(element => {
-      krawa.push(element);
-    });
-    noga([0, 175, 0], 100).forEach(element => {
-      krawa.push(element);
-    });
-    noga([75, 175, 0], 100).forEach(element => {
-      krawa.push(element);
-    });
-
-    var move = [[0], [0], [0]];
-    var angle0 = 30;
-    var angle1 = 30;
-    var angle2 = 30;
+    var move = [0, 0, 4];
+    var angle0 = 0;
+    var angle1 = 0;
+    var angle2 = 0;
     var rotate0 = [[Math.cos(angle0), -Math.sin(angle0), 0], [Math.sin(angle0), Math.cos(angle0), 0], [0, 0, 1]];
     var rotate1 = [[Math.cos(angle1), 0, -Math.sin(angle1)], [Math.sin(angle1), 1, 0], [0, 0, Math.cos(angle1)]];
     var rotate2 = [[1, 0, 0], [0, Math.cos(angle2), -Math.sin(angle2)], [0, Math.sin(angle2), Math.cos(angle2)]];
@@ -114,11 +84,12 @@
         angle2 = (angle2 + 0.01) % (2*Math.PI);
       }
     }
+    var krawa = generate_cow();
 
     function mainloop(timestamp) {
       // console.log("Drawing");
       
-      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.clearRect(0, 0, can.width, can.height);
       // var head_angle = 0.1
       draw(krawa, ctx, move, rotate);
 

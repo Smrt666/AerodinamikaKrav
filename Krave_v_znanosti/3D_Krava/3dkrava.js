@@ -1,11 +1,12 @@
 function matrix_add(left, right) {
-        height = left.length;
+        let height = left.length;
+        let width;
         if (height > 0) {
                 width = left[0].length;
         } else {
                 return undefined;
         }
-        r = Array(height);
+        let r = Array(height);
         for (let y = 0; y < height; y++) {
                 r[y] = Array(width);
         }
@@ -20,13 +21,14 @@ function matrix_add(left, right) {
 }
 
 function matrix_sub(left, right) {
-        height = left.length;
+        let height = left.length;
+        let width;
         if (height > 0) {
                 width = left[0].length;
         } else {
                 return undefined;
         }
-        r = Array(height);
+        let r = Array(height);
         for (let y = 0; y < height; y++) {
                 r[y] = Array(width);
         }
@@ -40,28 +42,17 @@ function matrix_sub(left, right) {
         return r;
 }
 
-function matrix_str(matrix) {
-        r = "";
-        for (let y = 0; y < matrix.length; y++) {
-                line = matrix[y];
-                for (let x = 0; x < line.length; x++) {
-                        number = line[x];
-                        r += number.toString() + " ";
-                }
-                r += "\n";
-        }
-        return r;
-}
-
 function matrix_mul(left, right) {
-        lh = left.length;
+        let lh = left.length;
+        let lw
         // Praznih matrik ne moremo pomnožiti
         if (lh > 0) {
                 lw = left[0].length;
         } else {
                 return undefined;
         }
-        rh = right.length;
+        let rh = right.length;
+        let rw;
         if (rh > 0) {
                 rw = right[0].length;
         } else {
@@ -74,7 +65,7 @@ function matrix_mul(left, right) {
         } else { return undefined; }
 
         // Zgradimo prazno matriko, kamor bomo shranili rezultat
-        r = Array(h);
+        let r = Array(h);
         for (let y = 0; y < h; y++) {
                 r[y] = Array(w);
         }
@@ -82,7 +73,7 @@ function matrix_mul(left, right) {
         // izračunamo rezultat
         for (let yleft = 0; yleft < lh; yleft++) {
                 for (let xright = 0; xright < rw; xright++) {
-                        sum = 0
+                        let sum = 0
                         for (let yright = 0; yright < rh; yright++) {
                                 xleft = yright;
                                 sum += left[yleft][xleft] * right[yright][xright];
@@ -94,58 +85,77 @@ function matrix_mul(left, right) {
         return r;
 }
 
-function dist(p) {
-        s = 0
-        p.forEach(element => {
-                s += element[0] * element[0];
-        });
-        if (s == 0) {
-                s = 1;
+
+// [x, y, z] -> [aspect_ratio * Fov_scaling_factor * x / z, Fov_scaling_factor * y / z, q * (z - r_near)]
+// To je slika točke med -1 in 1
+
+
+function R2(point) {
+        let s = 0;
+        for (let i = 2; i < point.length; i++) {
+                s += point[i] * point[i];
         }
-        return 1; // 300/Math.sqrt(s);
+        if (s == 0) {
+                return 1;
+        }
+        return Math.sqrt(s);
+}
+
+function move_to_center(point) {
+        let x = point[0];
+        let y = point[1];
+        let z = R2(point);
+        let p = [aspect_ratio * Fov_scaling_factor * x / z, Fov_scaling_factor * y / z, q * (z - r_near)];
+        return [(p[0] + 1) * width / 2, (p[1] + 1) * height / 2]
+}
+
+function visible(point) {
+        let s = true;
+        for (let i = 2; i < point.length; i++) {
+                s = s && (point[i] >= 0);
+        }
+
+        return s;
+}
+
+
+function project_objects(objects, move, rotate) {
+        let proj_objects = [];
+        for (let i = 0; i < objects.length; i++) {
+                let object = objects[i];
+                let projected_points = [];
+                let to_draw = true;
+                for (let j = 0; j < object.length; j++) {
+                        let tmp = matrix_sub(matrix_mul([object[j]], rotate), [move])[0];
+                        // najprej zavrtmo okrog 0, potem pa premaknemo glede na kamero
+                        if (r_near < R2(tmp) < r_far) { // && visible(tmp)
+                                let projected = move_to_center(tmp);
+                                projected_points.push(projected);
+                        } else {
+                                to_draw = false;
+                        }
+                }
+                if (to_draw) {
+                        proj_objects.push(projected_points);
+                }
+        }
+        return proj_objects;
 }
 
 function draw_rectangle(surface, p) {
-        p0 = p[0];
-        d0 = dist(p0);
-        p1 = p[1];
-        d1 = dist(p1);
-        p2 = p[2];
-        d2 = dist(p2);
-        p3 = p[3];
-        d3 = dist(p3);
-        surface.moveTo(p0[0]*d0 + 350, p0[2]*d0 + 300);
-        surface.lineTo(p1[0]*d1 + 350, p1[2]*d1 + 300);
-        surface.lineTo(p2[0]*d2 + 350, p2[2]*d2 + 300);
-        surface.lineTo(p3[0]*d3 + 350, p3[2]*d3 + 300);
-        surface.lineTo(p0[0]*d0 + 350, p0[2]*d0 + 300);
+        ctx.beginPath();
+        surface.moveTo(p[0], p[0]);
+        for (let i = 0; i < p.length; i++) {
+                surface.lineTo(p[i][0], p[i][1]);
+        }
+        surface.lineTo(p[0][0], p[0][1]);
         surface.stroke();
-
-        // console.log("Rectangle")
-        // console.log(p0[0]*d0, p0[1]*d0);
-        // console.log(p1[0]*d1, p1[1]*d1);
-        // console.log(p2[0]*d2, p2[1]*d2);
-        // console.log(p3[0]*d3, p3[1]*d3);
 }
 
-function draw(krawa, surface, move, rotate) {
-        // console.log(matrix_str(move));
-        // console.log(rotate);
-        surface.beginPath();
-        for (let i = 0; i < krawa.length; i++) {
-                const pravokotnik = krawa[i];
-                // console.log(matrix_str(pravokotnik));
-
-                let pre = [0, 0, 0, 0];
-                for (let j = 0; j < pre.length; j++) {
-                        let s = [[pravokotnik[j][0]], [pravokotnik[j][1]], [pravokotnik[j][2]]];
-                        // console.log(matrix_str(s), "\n-\n", matrix_str(move))
-                        let dif = matrix_sub(s, move);
-                        // console.log("dif:\n", matrix_str(dif));
-                        pre[j] = matrix_mul(rotate, dif);
-                }
-
-                draw_rectangle(surface, pre);
-                // console.log(matrix_str(pre));
-        }
+function draw(objects, ctx, move, rotate) {
+        let td = project_objects(objects, move, rotate);
+        ctx.clearRect(0, 0, can.width, can.height);
+        td.forEach(element => {
+                draw_rectangle(ctx, element);
+        });
 }
