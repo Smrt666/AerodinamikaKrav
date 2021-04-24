@@ -10,6 +10,8 @@ a{
    color: blue;
    text-decoration: none;
    white-space: nowrap;
+   padding: 20px 10px;
+   margin: 20px 10px;
 }
 a:hover{
    text-decoration: underline;
@@ -25,8 +27,6 @@ a:hover{
    a{
       color: red;
       text-decoration: none;
-      padding: 20px 10px;
-      margin: 20px 10px;
    }
    a:hover{
       text-decoration: underline;
