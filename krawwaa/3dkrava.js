@@ -154,7 +154,6 @@ function draw_rectangle(surface, p) {
 
 function draw(objects, ctx, move, rotate) {
         let td = project_objects(objects, move, rotate);
-        // ctx.clearRect(0, 0, can.width, can.height);
         td.forEach(element => {
                 draw_rectangle(ctx, element);
         });
