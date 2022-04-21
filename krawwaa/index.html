@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <title>Rdeča &#128004</title>
+    <script src="3dkrava.js"></script>
+    <script src="generate_cow.js"></script>
+  </head>
+  <body>
+    <canvas id="myCanvas">
+      Velika rdeča &#128004 ni zadovoljna s tem brskalnikom.</canvas>
+  </body>
+  <script>
+    var last_timestamp;
+    var time_start = Date.now();
+    var can = document.getElementById("myCanvas");
+    can.width = window.innerWidth - 70;
+    width = can.width
+    can.height = window.innerHeight - 10;
+    height = can.height
+    var ctx = can.getContext("2d");
+    ctx.strokeStyle = "red";
+
+    var r_near = 0.1;
+    var r_far = 1000.0;
+
+    var fiel_of_view = 90.0; // stopinj
+    var aspect_ratio = height / width;
+
+    var Fov_scaling_factor = 1 / Math.tan(0.5 * fiel_of_view / 180 * Math.PI);
+    var q = r_far / (r_far - r_near)
+
+    var krawa_move = [0, 0, 4];
+    var krawa_angles = [1.7, 0.9, 0.2];
+    var krawa_rotate = [0, 0, 0];
+    krawa_rotate[0] = [[Math.cos(krawa_angles[0]), -Math.sin(krawa_angles[0]), 0], [Math.sin(krawa_angles[0]), Math.cos(krawa_angles[0]), 0], [0, 0, 1]];
+    krawa_rotate[1] = [[Math.cos(krawa_angles[1]), 0, -Math.sin(krawa_angles[1])], [Math.sin(krawa_angles[1]), 1, 0], [0, 0, Math.cos(krawa_angles[1])]];
+    krawa_rotate[2] = [[1, 0, 0], [0, Math.cos(krawa_angles[2]), -Math.sin(krawa_angles[2])], [0, Math.sin(krawa_angles[2]), Math.cos(krawa_angles[2])]];
+    var krawaa_master_rotate = matrix_mul(matrix_mul(krawa_rotate[2], krawa_rotate[1]), krawa_rotate[0]);
+
+    
+
+    function update_angles() {
+      // krawa_angles[0] = (krawa_angles[0] + 0.01) % (2*Math.PI);
+      // krawa_angles[1] = (krawa_angles[1] + 0.01) % (2*Math.PI);
+      // krawa_angles[2] = (krawa_angles[2] + 0.01) % (2*Math.PI);
+
+      krawa_rotate[0] = [[Math.cos(krawa_angles[0]), -Math.sin(krawa_angles[0]), 0], [Math.sin(krawa_angles[0]), Math.cos(krawa_angles[0]), 0], [0, 0, 1]];
+      krawa_rotate[1] = [[Math.cos(krawa_angles[1]), 0, -Math.sin(krawa_angles[1])], [0, 1, 0], [Math.sin(krawa_angles[1]), 0, Math.cos(krawa_angles[1])]];
+      krawa_rotate[2] = [[1, 0, 0], [0, Math.cos(krawa_angles[2]), -Math.sin(krawa_angles[2])], [0, Math.sin(krawa_angles[2]), Math.cos(krawa_angles[2])]];
+      krawaa_master_rotate = matrix_mul(matrix_mul(krawa_rotate[2], krawa_rotate[1]), krawa_rotate[0]);
+    }
+
+    var velika_krawa = generate_cow(1, 0, 0, 0);
+    var napis = new Krawatext(0, -50, 80, "Kuku", "red", 1);
+
+    function texto_rotate(t) {
+      napis.angles[0] = (napis.angles[0] + 0.002 * Math.sin(t/ 300)) % (2*Math.PI);
+      napis.angles[1] = (napis.angles[1] + 0.002 * Math.sin(t/ 300)) % (4*Math.PI);
+      napis.angles[2] = (napis.angles[2] + 0.002 * Math.sin(t/ 300)) % (2*Math.PI);
+    }
+
+    function mainloop(timestamp) {
+      ctx.clearRect(0, 0, can.width, can.height);
+      // draw(velika_krawa, ctx, krawa_move, krawaa_master_rotate);
+      // update_angles();
+      napis.krawa_update();
+      napis.krawa_drawate(ctx);
+      texto_rotate(Date.now() - time_start);
+
+
+      last_timestamp = timestamp;
+      requestAnimationFrame(mainloop);
+    }
+    requestAnimationFrame(mainloop);
+  </script>
+</html>
